@@ -1,0 +1,32 @@
+# Claude Code specific
+.specs/
+*.log
+.claude/settings.local.json
+settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+.coverage
+
+# Build outputs
+dist/
+build/
+*.egg-info/
