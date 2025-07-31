@@ -1,58 +1,108 @@
 ---
-description: Generate bilingual requirements - analyzes existing code and supports both quick mode and interactive mode
+description: 要件定義を生成 - 既存コードの分析とクイックモード・対話モードに対応（デフォルト：日本語）
 ---
 
-# Spec-Driven Requirements Generator / 仕様駆動要件ジェネレーター
+# 仕様駆動要件ジェネレーター
 
-## Mode Selection / モード選択
+## 使い方
 
-Analyzing your input: "$ARGUMENTS"
+```bash
+/spec-init [プロジェクト説明] [オプション]
+```
 
-!echo "Input received: $ARGUMENTS"
+### パラメータ
 
-## Step 1: Analyze Existing Project / 既存プロジェクトの分析
+| パラメータ | 説明 | 例 |
+|-----------|------|-----|
+| `プロジェクト説明` (任意) | プロジェクトの簡単な説明 | `TODOアプリ`, `株価分析ツール`, `メール通知システム` |
+| `--quick` または `-q` | クイックモードを強制（対話なし） | `--quick`, `-q` |
+| `--en` | 英語で生成（デフォルトは日本語） | `--en` |
+| `--analyze` または `-a` | 既存コードを分析 | `--analyze`, `-a` |
 
-First, let me check if this is an existing project with source code:
+### 使用例
+
+```bash
+# 対話モード（パラメータなしの場合のデフォルト）
+/spec-init
+/spec-init interactive  # 明示的に対話モードを指定
+
+# クイックモード - 簡単なプロジェクト説明  
+/spec-init TODOアプリ --quick
+/spec-init 株価分析ツール -q
+/spec-init "ECプラットフォーム" --quick
+
+# 初期コンテキスト付き対話モード
+/spec-init TODOアプリ  # プロジェクト名を指定して対話モード開始
+/spec-init ECサイト
+
+# 英語で生成
+/spec-init todo app --en  # 英語で対話モード
+/spec-init "stock analysis tool" --quick --en  # 英語でクイックモード
+```
+
+## モード選択と言語設定
+
+入力内容を分析中: "$ARGUMENTS"
+
+!echo "🔍 受信した入力: $ARGUMENTS"
+
+### 言語設定の確認
+!if [[ "$ARGUMENTS" == *"--en"* ]]; then echo "🌐 Language: English"; else echo "🌐 言語: 日本語（デフォルト）"; fi
+
+## ステップ1: 既存プロジェクトの分析
+
+既存のソースコードがあるかチェックします:
 
 !find . -type f -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.java" -o -name "*.go" | head -20
 
-If source code exists, I'll analyze:
-- Current project structure and architecture
-- Existing features and functionalities  
-- Dependencies and technology stack
-- Code patterns and conventions
-- Areas that might need enhancement
+ソースコードが存在する場合、以下を分析します:
+- 現在のプロジェクト構造とアーキテクチャ
+- 既存の機能  
+- 依存関係と技術スタック
+- コードパターンと規約
+- 改善が必要な領域
 
-Based on your input, I'll determine the best approach:
+入力内容に基づいて、最適なアプローチを決定します:
 
-### Quick Mode (Simple Description) / クイックモード（簡単な説明）
-If you provided a brief project description (e.g., "株価を分析するPythonアプリ"), I'll:
-- Analyze the core concept
-- Infer common requirements for this type of application
-- Generate comprehensive requirements based on best practices
-- Create a complete requirement.md with standard features
+### 💬 対話モード（デフォルト）
+**使用場面**: 詳細でカスタマイズされた要件が必要な場合
+- 起動条件: 
+  - パラメータなし: `/spec-init`
+  - オプションなしのプロジェクト説明: `/spec-init TODOアプリ`
+  - 明示的なキーワード: `/spec-init interactive`
+- 実行内容:
+  - 以下について詳細な質問でガイド:
+    1. プロジェクトの概要と目標
+    2. 具体的な機能要件
+    3. 技術的な制約と好み
+    4. ユーザー体験の考慮事項
+  - プロジェクト説明が提供された場合、初期コンテキストとして使用
 
-### Interactive Mode (Detailed Requirements) / 対話モード（詳細要件）
-If you want more control or have specific requirements, I'll guide you through:
-1. Project overview and goals
-2. Specific functional requirements
-3. Technical constraints and preferences
-4. User experience considerations
+### 🚀 クイックモード
+**使用場面**: シンプルなプロジェクトアイデアで素早く要件が欲しい場合
+- 起動条件: `--quick` または `-q` フラグ
+- 例: `/spec-init TODOアプリ --quick`
+- 実行内容:
+  - コアコンセプトを分析
+  - このタイプのアプリケーションの一般的な要件を推測
+  - ベストプラクティスに基づいて包括的な要件を生成
+  - 標準機能を備えた完全なrequirement.mdを作成
+  - 対話型の質問なし
 
-### How to trigger each mode:
-- **Quick Mode**: Just describe your project in one sentence
-  - Example: "create a todo app" / "TODOアプリを作って"
-  - Example: "株価分析ツール" / "stock analysis tool"
-
-- **Interactive Mode**: Add "interactive" or "詳細" to your command
-  - Example: "/spec-init interactive"
-  - Example: "/spec-init 詳細に聞いて"
+### 🔍 分析モード
+**使用場面**: 既存コードを分析したい場合
+- 起動条件: `--analyze` または `-a` フラグ
+- 例: `/spec-init --analyze`
+- 実行内容:
+  - 既存のコードベースを分析
+  - 現在の機能とアーキテクチャを抽出
+  - 実際の実装に基づいて要件を生成
 
 ---
 
-## Step 2: Determine Spec Directory / 仕様ディレクトリの決定
+## ステップ2: 仕様ディレクトリの決定
 
-Based on your input "$ARGUMENTS", I'll create or use an appropriate directory structure:
+入力内容 "$ARGUMENTS" に基づいて、適切なディレクトリ構造を作成または使用します:
 
 ```
 .specs/
@@ -60,47 +110,91 @@ Based on your input "$ARGUMENTS", I'll create or use an appropriate directory st
 │   ├── requirement.md
 │   ├── design.md
 │   └── tasks.md
-├── email-opt-out-feature/
+├── email-unsubscribe-feature/
 │   ├── requirement.md
 │   ├── design.md
 │   └── tasks.md
-└── user-auth-system/
+└── user-authentication-system/
     ├── requirement.md
     ├── design.md
     └── tasks.md
 ```
 
-Let me determine the spec directory name from your input:
+入力内容から仕様ディレクトリ名を決定します:
 
-!echo "Creating spec directory based on: $ARGUMENTS"
+!echo "仕様ディレクトリを作成中: $ARGUMENTS"
 
-The spec files will be organized in: `.specs/[feature-or-app-name]/`
+仕様ファイルは以下に整理されます: `.specs/[feature-or-app-name]/`
 
-## Step 3: Generating/Updating Requirements / 要件の生成・更新
+## ステップ3: 要件の生成・更新
 
-Based on "$ARGUMENTS" and the analysis above, I'll:
+"$ARGUMENTS" と上記の分析に基づいて、以下を実行します:
 
-**Directory Creation:**
-1. Parse your input to generate a directory name
+### 言語に応じた対話と生成
+
+!if [[ "$ARGUMENTS" == *"--en"* ]]; then
+  echo "🌐 I will interact with you in English and generate all documents in English."
+else
+  echo "🌐 日本語で対話し、すべてのドキュメントを日本語で生成します。"
+fi
+
+**ディレクトリ作成:**
+1. 入力を解析してディレクトリ名を生成（英語のケバブケース形式）
    - "株価分析アプリ" → `.specs/stock-analysis-app/`
-   - "add email opt-out" → `.specs/email-opt-out-feature/`
-   - "ユーザー認証システム" → `.specs/user-auth-system/`
+   - "TODOアプリ" → `.specs/todo-app/`
+   - "ユーザー認証システム" → `.specs/user-authentication-system/`
+   - "システム管理ユーザー管理" → `.specs/system-admin-user-management/`
 
-2. Create the directory if it doesn't exist:
+2. ディレクトリが存在しない場合は作成:
    ```bash
    mkdir -p .specs/[feature-name]/
    ```
 
-3. Generate requirement.md in that directory:
+3. そのディレクトリにrequirement.mdを生成:
    ```
    .specs/[feature-name]/requirement.md
    ```
 
-**Benefits of this approach:**
-- Each feature/app has its own spec set
-- No overwriting of existing specs
-- Clear history of all features
-- Easy to track what was implemented when
-- Can reference other specs for integration
+**このアプローチの利点:**
+- 各機能/アプリに独自の仕様セット
+- 既存の仕様を上書きしない
+- すべての機能の明確な履歴
+- いつ何が実装されたかを簡単に追跡
+- 統合のために他の仕様を参照可能
 
-The generated requirement.md will be saved to the appropriate directory!
+生成されたrequirement.mdは適切なディレクトリに保存されます！
+
+### 対話例（日本語モード）
+
+```
+私: どのようなアプリケーションを作成しますか？
+あなた: TODOアプリを作りたいです
+私: 素晴らしい！TODOアプリの要件について詳しく聞かせてください。
+    1. 主な機能は何ですか？
+    2. ユーザー認証は必要ですか？
+    3. データの保存方法は？
+```
+
+### 対話例（英語モード: --en）
+
+```
+Me: What kind of application would you like to create?
+You: I want to build a todo app
+Me: Great! Let me ask you more about your todo app requirements.
+    1. What are the main features?
+    2. Do you need user authentication?
+    3. How should data be stored?
+```
+
+## フォルダ名規則
+
+仕様ディレクトリ名は常に**英語のケバブケース形式**で作成されます:
+- 日本語入力 → 英語に変換
+- スペースはハイフンに変換
+- 小文字のみ使用
+
+例:
+- "株価分析アプリ" → `stock-analysis-app`
+- "メール配信停止機能" → `email-unsubscribe-feature`
+- "ユーザー認証システム" → `user-authentication-system`
+- "System Admin User Management" → `system-admin-user-management`
