@@ -42,9 +42,16 @@ description: 要件定義を生成 - 既存コードの分析とクイックモ�
 
 ## モード選択と言語設定
 
-入力内容を分析中: "$ARGUMENTS"
-
-!echo "🔍 受信した入力: $ARGUMENTS"
+### パラメータの確認
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo "🔍 コマンド実行開始"
+!if [ -z "$ARGUMENTS" ]; then
+  echo "📋 モード: 対話モード（パラメータなし）"
+  echo "💬 これから新機能について詳しくお聞きします"
+else
+  echo "📋 受信したパラメータ: $ARGUMENTS"
+fi
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 ### 言語設定の確認
 !if [[ "$ARGUMENTS" == *"--en"* ]]; then echo "🌐 Language: English"; else echo "🌐 言語: 日本語（デフォルト）"; fi
@@ -102,7 +109,9 @@ description: 要件定義を生成 - 既存コードの分析とクイックモ�
 
 ## ステップ2: 仕様ディレクトリの決定
 
-入力内容 "$ARGUMENTS" に基づいて、適切なディレクトリ構造を作成または使用します:
+!echo "📁 仕様ディレクトリ構造の準備"
+
+パラメータに基づいて、適切なディレクトリ構造を作成または使用します:
 
 ```
 .specs/
@@ -120,22 +129,28 @@ description: 要件定義を生成 - 既存コードの分析とクイックモ�
     └── tasks.md
 ```
 
-入力内容から仕様ディレクトリ名を決定します:
+### ディレクトリ名の決定プロセス
 
-!echo "仕様ディレクトリを作成中: $ARGUMENTS"
+!if [ -z "$ARGUMENTS" ]; then
+  echo "💭 対話モードのため、後でディレクトリ名を決定します"
+else
+  echo "📝 パラメータから仕様ディレクトリ名を生成します"
+fi
 
 仕様ファイルは以下に整理されます: `.specs/[feature-or-app-name]/`
 
 ## ステップ3: 要件の生成・更新
 
-"$ARGUMENTS" と上記の分析に基づいて、以下を実行します:
+パラメータと上記の分析に基づいて、以下を実行します:
 
 ### 言語に応じた対話と生成
 
 !if [[ "$ARGUMENTS" == *"--en"* ]]; then
   echo "🌐 I will interact with you in English and generate all documents in English."
+  echo "📝 Requirements will be numbered (REQ-001, NFR-001, etc.) for traceability"
 else
   echo "🌐 日本語で対話し、すべてのドキュメントを日本語で生成します。"
+  echo "📝 要件には番号を付与します（REQ-001、NFR-001など）- 設計時の追跡性向上のため"
 fi
 
 **ディレクトリ作成:**
@@ -163,6 +178,41 @@ fi
 - 統合のために他の仕様を参照可能
 
 生成されたrequirement.mdは適切なディレクトリに保存されます！
+
+## 要件番号付けフォーマット
+
+requirement.mdは以下の番号体系で生成されます：
+
+### 番号体系
+- **[REQ-XXX]**: 機能要件 (Functional Requirements)
+- **[NFR-XXX]**: 非機能要件 (Non-Functional Requirements)  
+- **[CON-XXX]**: 制約事項 (Constraints)
+- **[ASM-XXX]**: 前提条件 (Assumptions)
+
+### 生成例
+```markdown
+# 要件定義書
+
+## 1. 機能要件
+
+[REQ-001] ユーザー認証機能
+- メールアドレスとパスワードでログインできる
+- パスワードリセット機能を提供する
+
+[REQ-002] データ管理機能
+- データの作成・更新・削除ができる
+- データの検索ができる
+
+## 2. 非機能要件
+
+[NFR-001] パフォーマンス要件
+- API応答時間は2秒以内
+
+[NFR-002] セキュリティ要件
+- HTTPS通信を使用する
+```
+
+この番号は後で/spec-designコマンドで設計書を作成する際に、要件と設計の紐付けに使用されます。
 
 ### 対話例（日本語モード）
 
