@@ -69,6 +69,26 @@ fi
 ### 言語設定の確認
 !if [[ "$ARGUMENTS" == *"--en"* ]]; then echo "🌐 Language: English"; else echo "🌐 言語: 日本語（デフォルト）"; fi
 
+## 重要な注意事項
+
+!echo ""
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo "📄 requirement.mdファイルの作成について"
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo ""
+!echo "⚠️ このコマンドはrequirement.mdの内容を画面に表示します。"
+!echo ""
+!echo "【実際のファイル作成手順】"
+!echo "1. 以下のステップで表示される内容を確認"
+!echo "2. 対話または分析結果に基づいて適切な内容を生成"
+!echo "3. Writeツールを使用して .specs/[プロジェクト名]/requirement.md として保存"
+!echo ""
+!echo "保存場所の例:"
+!echo "- .specs/todo-app/requirement.md"
+!echo "- .specs/stock-analysis/requirement.md"
+!echo ""
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
 ### 分析モードの確認
 !if [[ "$ARGUMENTS" == *"--deep"* ]] || [[ "$ARGUMENTS" == *"-d"* ]]; then echo "🤔 モード: ソクラテス式深掘り対話"; fi
 !if [[ "$ARGUMENTS" == *"--personas"* ]] || [[ "$ARGUMENTS" == *"-p"* ]]; then echo "👥 モード: 複数視点分析を有効化"; fi

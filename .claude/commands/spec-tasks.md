@@ -48,6 +48,26 @@ personas: [architect, analyzer, project-manager]
 
 !if [[ "$ARGUMENTS" == *"--en"* ]]; then echo "🌐 Language: English - Generating task list in English"; else echo "🌐 言語: 日本語 - タスクリストを日本語で生成します"; fi
 
+## 重要な注意事項
+
+!echo ""
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo "📄 tasks.mdファイルの作成について"
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo ""
+!echo "⚠️ このコマンドはtasks.mdの内容を画面に表示します。"
+!echo ""
+!echo "【実際のファイル作成手順】"
+!echo "1. 以下のステップで表示される内容を確認"
+!echo "2. 設計書の分析結果に基づいて適切な内容を生成"
+!echo "3. Writeツールを使用して .specs/[プロジェクト名]/tasks.md として保存"
+!echo ""
+!echo "保存場所の例:"
+!echo "- .specs/todo-app/tasks.md"
+!echo "- .specs/stock-analysis/tasks.md"
+!echo ""
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
 ## ステップ0: 初期分析とコンテキスト理解
 
 ### 要件の明確化（Brainstorming要素）

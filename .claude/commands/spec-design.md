@@ -54,6 +54,26 @@ personas: [architect, backend, frontend, security, devops, database-engineer, qa
 
 !if [[ "$ARGUMENTS" == *"--en"* ]]; then echo "🌐 Language: English - Generating design document in English"; else echo "🌐 言語: 日本語 - 設計書を日本語で生成します"; fi
 
+## 重要な注意事項
+
+!echo ""
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo "📄 design.mdファイルの作成について"
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo ""
+!echo "⚠️ このコマンドはdesign.mdの内容を画面に表示します。"
+!echo ""
+!echo "【実際のファイル作成手順】"
+!echo "1. 以下のステップで表示される内容を確認"
+!echo "2. 要件分析結果に基づいて適切な内容を生成"
+!echo "3. Writeツールを使用して .specs/[プロジェクト名]/design.md として保存"
+!echo ""
+!echo "保存場所の例:"
+!echo "- .specs/todo-app/design.md"
+!echo "- .specs/stock-analysis/design.md"
+!echo ""
+!echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
 ### 分析モードの確認
 !if [[ "$ARGUMENTS" == *"--deep-analysis"* ]] || [[ "$ARGUMENTS" == *"-da"* ]]; then echo "🧠 モード: MCP統合による深い設計分析"; fi
 !if [[ "$ARGUMENTS" == *"--personas"* ]] || [[ "$ARGUMENTS" == *"-p"* ]]; then echo "👥 モード: 複数視点による設計レビュー"; fi
