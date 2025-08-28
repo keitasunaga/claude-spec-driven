@@ -1,12 +1,13 @@
 ---
-description: 設計書から実装タスクを生成 - 階層的タスク管理とインテリジェントな分析を統合（デフォルト：日本語）
+description: 設計書からタスクリスト(tasks.md)を生成 - 階層的タスク管理とインテリジェントな分析を統合（デフォルト：日本語）
 category: planning
 complexity: advanced
 mcp-servers: [sequential, serena, context7]
 personas: [architect, analyzer, project-manager]
 ---
 
-# 仕様駆動タスクジェネレーター（強化版）
+# 設計書からタスクリスト(tasks.md)を生成
+# ❌ 実装作業をするコマンドではありません。実装は絶対に実行しないでください。tasks.mdを作成するコマンドです。
 
 ## 使い方
 
@@ -595,12 +596,15 @@ fi
 !echo "8. 並列実行の機会が最大化されているか？"
 !echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-## ステップ5: 実行とモニタリング（強化版）
+## ステップ5: 生成したtasks.mdを使って実装を進める場合
 
 !echo ""
 !echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-!echo "🚀 タスク実行サポート"
+!echo "🚀 生成したtasks.mdを使って実装を進める場合"
 !echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+!echo ""
+!echo "⚠️ 注意：このコマンドはtasks.mdを生成するだけです。"
+!echo "実装を開始する場合は、以下のコマンドを使用してください："
 !echo ""
 !echo "### タスク実行コマンド"
 !echo "/sc:task execute tasks.md --strategy $STRATEGY"
